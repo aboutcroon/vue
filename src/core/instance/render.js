@@ -88,7 +88,7 @@ export function renderMixin (Vue: Class<Component>) {
       // separately from one another. Nested component's render fns are called
       // when parent component is patched.
       currentRenderingInstance = vm
-      vnode = render.call(vm._renderProxy, vm.$createElement)
+      vnode = render.call(vm._renderProxy, vm.$createElement) // 关键点，render 函数中的 createElement 方法就是 vm.$createElement 方法，vm._render 最终是通过执行 createElement 方法并返回的是 vnode，它是一个虚拟 Node
     } catch (e) {
       handleError(e, vm, `render`)
       // return error render result,
@@ -124,6 +124,6 @@ export function renderMixin (Vue: Class<Component>) {
     }
     // set parent
     vnode.parent = _parentVnode
-    return vnode
+    return vnode // vm._render 最终是通过执行 createElement 方法并返回的是 vnode，它是一个虚拟 Node
   }
 }

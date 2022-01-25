@@ -38,7 +38,7 @@ const sharedPropertyDefinition = {
 
 export function proxy (target: Object, sourceKey: string, key: string) {
   sharedPropertyDefinition.get = function proxyGetter () {
-    return this[sourceKey][key]
+    return this[sourceKey][key] // 例如 initData 里，则会返回vm._data.xxx
   }
   sharedPropertyDefinition.set = function proxySetter (val) {
     this[sourceKey][key] = val
@@ -145,7 +145,7 @@ function initData (vm: Component) {
         vm
       )
     } else if (!isReserved(key)) {
-      proxy(vm, `_data`, key)
+      proxy(vm, `_data`, key) // 关键就是这个proxy，将vm._data.message代理到了this.message
     }
   }
   // observe data

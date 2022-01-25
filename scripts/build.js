@@ -11,7 +11,7 @@ if (!fs.existsSync('dist')) {
 let builds = require('./config').getAllBuilds()
 
 // filter builds via command line arg
-if (process.argv[2]) {
+if (process.argv[2]) { // vue 可以跑在 web 上，也可以配合 weex 跑在 native 客户端上。
   const filters = process.argv[2].split(',')
   builds = builds.filter(b => {
     return filters.some(f => b.output.file.indexOf(f) > -1 || b._name.indexOf(f) > -1)

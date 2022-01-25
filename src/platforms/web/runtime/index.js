@@ -1,6 +1,6 @@
 /* @flow */
 
-import Vue from 'core/index'
+import Vue from 'core/index' // 关键的代码就是这个 import Vue from 'core/index'，之后的逻辑都是对 Vue 这个对象做一些扩展。所以真正初始化 Vue 的地方，在 src/core/index.js 中
 import config from 'core/config'
 import { extend, noop } from 'shared/util'
 import { mountComponent } from 'core/instance/lifecycle'
@@ -34,12 +34,14 @@ extend(Vue.options.components, platformComponents)
 Vue.prototype.__patch__ = inBrowser ? patch : noop
 
 // public mount method
+// 公共的mount方法，在 entry-runtime-with-compiler.js 等文件中会重新定义和拓展mount方法
+// 之所以这么设计完全是为了复用，因为它是可以被 runtime only 版本的 Vue 直接使用的，也可以被 runtime-with-compiler 版本的 Vue 使用
 Vue.prototype.$mount = function (
-  el?: string | Element,
-  hydrating?: boolean
+  el?: string | Element, // el 表示挂载的元素，可以是字符串，也可以是 DOM 对象，如果是字符串在浏览器环境下会调用 query 方法转换成 DOM 对象的
+  hydrating?: boolean // hydrating 是和服务端渲染相关，在浏览器环境下我们不需要传
 ): Component {
   el = el && inBrowser ? query(el) : undefined
-  return mountComponent(this, el, hydrating)
+  return mountComponent(this, el, hydrating) // 实际上调用的方法
 }
 
 // devtools global hook

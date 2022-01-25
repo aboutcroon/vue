@@ -26,7 +26,7 @@ const weexFactoryPlugin = {
 }
 
 const aliases = require('./alias')
-const resolve = p => {
+const resolve = p => { // 根据传入的字符串，再通过 alias 来找到路径，入口一般都在 /src/platforms 下面
   const base = p.split('/')[0]
   if (aliases[base]) {
     return path.resolve(aliases[base], p.slice(base.length + 1))
@@ -38,8 +38,8 @@ const resolve = p => {
 const builds = {
   // Runtime only (CommonJS). Used by bundlers e.g. Webpack & Browserify
   'web-runtime-cjs-dev': {
-    entry: resolve('web/entry-runtime.js'),
-    dest: resolve('dist/vue.runtime.common.dev.js'),
+    entry: resolve('web/entry-runtime.js'), // 入口
+    dest: resolve('dist/vue.runtime.common.dev.js'), // 出口
     format: 'cjs',
     env: 'development',
     banner
